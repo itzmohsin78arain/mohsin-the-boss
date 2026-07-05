@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌙 DreamCollage AI - Create Your Dream World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-pink: #ff006e;
+            --neon-cyan: #00f5ff;
+            --neon-purple: #b026ff;
+            --neon-gold: #ffd700;
+            --dark-bg: #0a0a1a;
+            --glass: rgba(255,255,255,0.05);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(176, 38, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        /* Header */
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(10,10,26,0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 300;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-cyan);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan), var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(255,0,110,0.3);
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(255,0,110,0.6);
+        }
+
+        /* Main Canvas Area */
+        .main-area {
+            display: flex;
+            gap: 20px;
+            padding: 20px 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h3 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            color: var(--neon-cyan);
+        }
+
+        .prompt-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0,245,255,0.2);
+        }
+
+        .style-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .style-btn {
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .style-btn.active, .style-btn:hover {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,245,255,0.3);
+        }
+
+        .generate-btn.generating {
+            background: linear-gradient(135deg, #666, #888);
+            pointer-events: none;
+        }
+
+        /* Canvas */
+        .canvas-container {
+            flex: 1;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 700px;
+            position: relative;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .canvas-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .canvas-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .canvas-tools {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tool-btn {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .tool-btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+        }
+
+        .collage-area {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .collage-item {
+            position: absolute;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: move;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 2px solid transparent;
+        }
+
+        .collage-item:hover {
+            box-shadow: 0 10px 40px rgba(0,245,255,0.3);
+            border-color: var(--neon-cyan);
+            z-index: 10;
+        }
+
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .collage-item .item-controls {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .collage-item:hover .item-controls {
+            opacity: 1;
+        }
+
+        .item-control-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.7);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .item-control-btn:hover {
+            background: var(--neon-pink);
+        }
+
+        /* Generated Images Gallery */
+        .gallery-section {
+            padding: 20px 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .gallery-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05) rotate(2deg);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 40px rgba(0,245,255,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover .overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-item .overlay p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .add-to-collage {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--neon-cyan);
+            border: none;
+            color: #000;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .gallery-item:hover .add-to-collage {
+            opacity: 1;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 60px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,245,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 20px 60px rgba(0,245,255,0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--neon-cyan);
+        }
+
+        .feature-card p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 60px;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Modal for Full View */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--neon-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .loader.active {
+            display: block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-area {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Particle Effect */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.6;
+            animation: particleFloat 10s infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Dream Stats */
+        .dream-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Mood Selector */
+        .mood-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .mood-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .mood-btn:hover, .mood-btn.active {
+            background: var(--neon-pink);
+            border-color: var(--neon-pink);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    <div class="stars" id="stars"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">🌙 DreamCollage AI</div>
+        <ul class="nav-links">
+            <li><a href="#create">Create</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#community">Community</a></li>
+        </ul>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Create Your Dream World</h1>
+        <p>Describe your imagination, and watch AI bring it to life. Build stunning collages, collaborate in real-time, and share your vision with the world.</p>
+        <a href="#create" class="cta-btn">✨ Start Creating</a>
+    </section>
+
+    <!-- Dream Stats -->
+    <div class="dream-stats">
+        <div class="stat-item">
+            <div class="stat-number" id="stat-images">2.4M+</div>
+            <div class="stat-label">Dreams Created</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="stat-users">890K+</div>
+            <div class="stat-label">Dreamers</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="stat-collages">156K+</div>
+            <div class="stat-label">Collages Built</div>
+        </div>
+    </div>
+
+    <!-- Main Creation Area -->
+    <section id="create" class="main-area">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>🎨 Dream Generator</h3>
+            
+            <label style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 8px; display: block;">Describe your dream:</label>
+            <textarea class="prompt-input" id="promptInput" rows="4" placeholder="A cyberpunk city floating in clouds with neon dragons..."></textarea>
+            
+            <label style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 8px; display: block;">Mood:</label>
+            <div class="mood-selector">
+                <button class="mood-btn active" data-mood="dreamy">😴 Dreamy</button>
+                <button class="mood-btn" data-mood="epic">⚡ Epic</button>
+                <button class="mood-btn" data-mood="mysterious">🌑 Mysterious</button>
+                <button class="mood-btn" data-mood="peaceful">🌸 Peaceful</button>
+                <button class="mood-btn" data-mood="chaotic">🔥 Chaotic</button>
+            </div>
+
+            <label style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 8px; display: block;">Art Style:</label>
+            <div class="style-selector">
+                <button class="style-btn active" data-style="surrealism">🎭 Surrealism</button>
+                <button class="style-btn" data-style="cyberpunk">🤖 Cyberpunk</button>
+                <button class="style-btn" data-style="fantasy">🐉 Fantasy</button>
+                <button class="style-btn" data-style="abstract">🎨 Abstract</button>
+                <button class="style-btn" data-style="anime">🌸 Anime</button>
+                <button class="style-btn" data-style="photorealistic">📷 Realistic</button>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" onclick="generateImage()">
+                ✨ Generate Dream Image
+            </button>
+            <div class="loader" id="loader"></div>
+
+            <div style="margin-top: 20px; padding: 15px; background: rgba(0,245,255,0.05); border-radius: 12px; border: 1px solid rgba(0,245,255,0.2);">
+                <p style="font-size: 0.85rem; color: var(--neon-cyan);">💡 Pro Tip: Use vivid descriptions with colors, emotions, and lighting for best results!</p>
+            </div>
+        </aside>
+
+        <!-- Canvas -->
+        <div class="canvas-container">
+            <div class="canvas-header">
+                <span class="canvas-title">🖼️ Your Dream Collage</span>
+                <div class="canvas-tools">
+                    <button class="tool-btn" onclick="clearCanvas()">🗑️ Clear</button>
+                    <button class="tool-btn" onclick="randomizeLayout()">🎲 Randomize</button>
+                    <button class="tool-btn" onclick="saveCollage()">💾 Save</button>
+                    <button class="tool-btn" onclick="shareCollage()">🔗 Share</button>
+                </div>
+            </div>
+            <div class="collage-area" id="collageArea">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: rgba(255,255,255,0.3);">
+                    <div style="font-size: 4rem; margin-bottom: 15px;">🎨</div>
+                    <p>Your collage canvas is empty</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Generate images and add them here!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="gallery-header">
+            <h2>🔥 Trending Dreams</h2>
+            <button class="tool-btn" onclick="refreshGallery()">🔄 Refresh</button>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Gallery items will be populated by JS -->
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2>✨ Why DreamCollage?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI-Powered Creation</h3>
+                <p>State-of-the-art AI models transform your text descriptions into stunning, unique artworks in seconds. No artistic skills required!</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Interactive Collage Builder</h3>
+                <p>Drag, resize, rotate, and layer your AI-generated images on an infinite canvas. Create compositions that tell your story.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Real-Time Collaboration</h3>
+                <p>Invite friends to build collages together. See cursors, chat, and create simultaneously in a shared dream space.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Global Dream Gallery</h3>
+                <p>Explore millions of AI-generated artworks from dreamers worldwide. Get inspired and remix existing creations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎭</div>
+                <h3>50+ Art Styles</h3>
+                <p>From surrealism to cyberpunk, anime to photorealistic — switch between styles to match your creative vision.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3>Export Anywhere</h3>
+                <p>Download your collages in ultra-high resolution. Perfect for wallpapers, prints, social media, or NFTs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>🌙 DreamCollage AI — Where Imagination Meets Reality</p>
+        <p style="margin-top: 10px; font-size: 0.85rem;">Made with 💜 for dreamers everywhere</p>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <button class="modal-close">✕</button>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Full view">
+        </div>
+    </div>
+
+    <script>
+        // Generate Stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            star.style.width = Math.random() * 3 + 1 + 'px';
+            star.style.height = star.style.width;
+            starsContainer.appendChild(star);
+        }
+
+        // Generate Particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.innerHTML = ['✨', '🌟', '💫', '⭐'][Math.floor(Math.random() * 4)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.fontSize = Math.random() * 20 + 10 + 'px';
+            particle.style.animationDuration = Math.random() * 5 + 5 + 's';
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 10000);
+        }
+        setInterval(createParticle, 2000);
+
+        // State
+        let selectedStyle = 'surrealism';
+        let selectedMood = 'dreamy';
+        let collageItems = [];
+        let draggedItem = null;
+        let dragOffset = { x: 0, y: 0 };
+
+        // Style Selection
+        document.querySelectorAll('.style-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedStyle = btn.dataset.style;
+            });
+        });
+
+        // Mood Selection
+        document.querySelectorAll('.mood-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedMood = btn.dataset.mood;
+            });
+        });
+
+        // Sample AI-generated images (in real app, these come from AI API)
+        const sampleImages = [
+            { url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=400&fit=crop', prompt: 'Surreal floating islands in a purple sky', style: 'surrealism' },
+            { url: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=400&h=400&fit=crop', prompt: 'Cyberpunk neon city at night', style: 'cyberpunk' },
+            { url: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&h=400&fit=crop', prompt: 'Mystical dragon in golden clouds', style: 'fantasy' },
+            { url: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=400&h=400&fit=crop', prompt: 'Abstract flowing colors', style: 'abstract' },
+            { url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=400&fit=crop', prompt: 'Dreamy cherry blossom garden', style: 'anime' },
+            { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop', prompt: 'Photorealistic mountain landscape', style: 'photorealistic' },
+            { url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=400&h=400&fit=crop', prompt: 'Neon retro wave sunset', style: 'cyberpunk' },
+            { url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=400&fit=crop', prompt: 'Fantasy crystal cave', style: 'fantasy' }
+        ];
+
+        // Generate Image
+        async function generateImage() {
+            const prompt = document.getElementById('promptInput').value.trim();
+            if (!prompt) {
+                alert('Please enter a dream description!');
+                return;
+            }
+
+            const btn = document.getElementById('generateBtn');
+            const loader = document.getElementById('loader');
+            
+            btn.classList.add('generating');
+            btn.textContent = '✨ Generating your dream...';
+            loader.classList.add('active');
+
+            // Simulate AI generation (in real app, call AI API)
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Create a new image based on prompt (using random sample for demo)
+            const randomImg = sampleImages[Math.floor(Math.random() * sampleImages.length)];
+            const newImage = {
+                id: Date.now(),
+                url: randomImg.url,
+                prompt: prompt,
+                style: selectedStyle,
+                mood: selectedMood
+            };
+
+            // Add to gallery
+            addToGallery(newImage);
+            
+            // Auto-add to collage
+            addToCollage(newImage);
+
+            btn.classList.remove('generating');
+            btn.textContent = '✨ Generate Dream Image';
+            loader.classList.remove('active');
+
+            // Clear input
+            document.getElementById('promptInput').value = '';
+        }
+
+        // Add to Gallery
+        function addToGallery(image) {
+            const grid = document.getElementById('galleryGrid');
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.innerHTML = `
+                <img src="${image.url}" alt="${image.prompt}" onclick="openModal('${image.url}')">
+                <button class="add-to-collage" onclick="addToCollageFromGallery('${image.url}', '${image.prompt.replace(/'/g, "\\'")}')">+</button>
+                <div class="overlay">
+                    <p><strong>${image.style}</strong> • ${image.mood}</p>
+                    <p style="margin-top: 5px; font-size: 0.8rem;">${image.prompt}</p>
+                </div>
+            `;
+            grid.insertBefore(item, grid.firstChild);
+        }
+
+        // Add to Collage
+        function addToCollage(image) {
+            const area = document.getElementById('collageArea');
+            
+            // Remove empty state if first item
+            if (collageItems.length === 0) {
+                area.innerHTML = '';
+            }
+
+            const item = document.createElement('div');
+            item.className = 'collage-item';
+            item.id = `item-${image.id}`;
+            
+            // Random position and size
+            const size = Math.random() * 150 + 150;
+            const x = Math.random() * (area.offsetWidth - size - 40) + 20;
+            const y = Math.random() * (area.offsetHeight - size - 40) + 20;
+            const rotation = (Math.random() - 0.5) * 20;
+            const zIndex = collageItems.length + 1;
+
+            item.style.width = size + 'px';
+            item.style.height = size + 'px';
+            item.style.left = x + 'px';
+            item.style.top = y + 'px';
+            item.style.transform = `rotate(${rotation}deg)`;
+            item.style.zIndex = zIndex;
+
+            item.innerHTML = `
+                <img src="${image.url}" alt="${image.prompt}">
+                <div class="item-controls">
+                    <button class="item-control-btn" onclick="rotateItem('${item.id}')" title="Rotate">↻</button>
+                    <button class="item-control-btn" onclick="scaleItem('${item.id}', 1.1)" title="Bigger">+</button>
+                    <button class="item-control-btn" onclick="scaleItem('${item.id}', 0.9)" title="Smaller">−</button>
+                    <button class="item-control-btn" onclick="bringToFront('${item.id}')" title="Front">↑</button>
+                    <button class="item-control-btn" onclick="removeItem('${item.id}')" title="Remove" style="background: var(--neon-pink);">✕</button>
+                </div>
+            `;
+
+            // Drag functionality
+            item.addEventListener('mousedown', startDrag);
+            item.addEventListener('touchstart', startDrag, { passive: false });
+
+            area.appendChild(item);
+            collageItems.push(item);
+
+            // Animate entry
+            item.style.opacity = '0';
+            item.style.transform += ' scale(0.5)';
+            setTimeout(() => {
+                item.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                item.style.opacity = '1';
+                item.style.transform = item.style.transform.replace('scale(0.5)', 'scale(1)');
+                setTimeout(() => {
+                    item.style.transition = 'transform 0.3s, box-shadow 0.3s';
+                }, 500);
+            }, 10);
+        }
+
+        function addToCollageFromGallery(url, prompt) {
+            addToCollage({
+                id: Date.now(),
+                url: url,
+                prompt: prompt,
+                style: selectedStyle,
+                mood: selectedMood
+            });
+        }
+
+        // Drag Functions
+        function startDrag(e) {
+            e.preventDefault();
+            draggedItem = e.currentTarget;
+            const rect = draggedItem.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            dragOffset.x = clientX - rect.left;
+            dragOffset.y = clientY - rect.top;
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('touchend', stopDrag);
+        }
+
+        function drag(e) {
+            if (!draggedItem) return;
+            e.preventDefault();
+            const area = document.getElementById('collageArea');
+            const areaRect = area.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            let x = clientX - areaRect.left - dragOffset.x;
+            let y = clientY - areaRect.top - dragOffset.y;
+            
+            draggedItem.style.left = x + 'px';
+            draggedItem.style.top = y + 'px';
+        }
+
+        function stopDrag() {
+            draggedItem = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('touchend', stopDrag);
+        }
+
+        // Item Controls
+        function rotateItem(id) {
+            const item = document.getElementById(id);
+            const currentTransform = item.style.transform;
+            const currentRotation = parseFloat(currentTransform.match(/rotate\(([-\d.]+)deg\)/)?.[1] || 0);
+            item.style.transform = currentTransform.replace(/rotate\([-\d.]+deg\)/, '') + ` rotate(${currentRotation + 15}deg)`;
+        }
+
+        function scaleItem(id, factor) {
+            const item = document.getElementById(id);
+            const currentWidth = parseFloat(item.style.width);
+            const currentHeight = parseFloat(item.style.height);
+            item.style.width = (currentWidth * factor) + 'px';
+            item.style.height = (currentHeight * factor) + 'px';
+        }
+
+        function bringToFront(id) {
+            const item = document.getElementById(id);
+            const maxZ = Math.max(...collageItems.map(i => parseInt(i.style.zIndex) || 0));
+            item.style.zIndex = maxZ + 1;
+        }
+
+        function removeItem(id) {
+            const item = document.getElementById(id);
+            item.style.transform += ' scale(0)';
+            item.style.opacity = '0';
+            setTimeout(() => {
+                item.remove();
+                collageItems = collageItems.filter(i => i.id !== id);
+                if (collageItems.length === 0) {
+                    document.getElementById('collageArea').innerHTML = `
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: rgba(255,255,255,0.3);">
+                            <div style="font-size: 4rem; margin-bottom: 15px;">🎨</div>
+                            <p>Your collage canvas is empty</p>
+                            <p style="font-size: 0.9rem; margin-top: 10px;">Generate images and add them here!</p>
+                        </div>
+                    `;
+                }
+            }, 300);
+        }
+
+        // Canvas Tools
+        function clearCanvas() {
+            if (confirm('Clear your entire collage?')) {
+                collageItems = [];
+                document.getElementById('collageArea').innerHTML = `
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: rgba(255,255,255,0.3);">
+                        <div style="font-size: 4rem; margin-bottom: 15px;">🎨</div>
+                        <p>Your collage canvas is empty</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Generate images and add them here!</p>
+                    </div>
+                `;
+            }
+        }
+
+        function randomizeLayout() {
+            const area = document.getElementById('collageArea');
+            collageItems.forEach(item => {
+                const size = Math.random() * 150 + 150;
+                const x = Math.random() * (area.offsetWidth - size - 40) + 20;
+                const y = Math.random() * (area.offsetHeight - size - 40) + 20;
+                const rotation = (Math.random() - 0.5) * 30;
+                
+                item.style.transition = 'all 0.5s ease';
+                item.style.width = size + 'px';
+                item.style.height = size + 'px';
+                item.style.left = x + 'px';
+                item.style.top = y + 'px';
+                item.style.transform = `rotate(${rotation}deg)`;
+                
+                setTimeout(() => {
+                    item.style.transition = 'transform 0.3s, box-shadow 0.3s';
+                }, 500);
+            });
+        }
+
+        function saveCollage() {
+            alert('💾 Collage saved! (In real app, this would download a high-res image)');
+        }
+
+        function shareCollage() {
+            const shareUrl = `${window.location.origin}/collage/${Date.now()}`;
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                alert('🔗 Share link copied to clipboard! Others can view and collaborate on your collage.');
+            });
+        }
+
+        // Modal
+        function openModal(url) {
+            document.getElementById('modalImage').src = url;
+            document.getElementById('imageModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('active');
+        }
+
+        // Initialize Gallery
+        function initGallery() {
+            const grid = document.getElementById('galleryGrid');
+            sampleImages.forEach((img, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.style.animationDelay = index * 0.1 + 's';
+                item.innerHTML = `
+                    <img src="${img.url}" alt="${img.prompt}" onclick="openModal('${img.url}')">
+                    <button class="add-to-collage" onclick="addToCollageFromGallery('${img.url}', '${img.prompt.replace(/'/g, "\\'")}')">+</button>
+                    <div class="overlay">
+                        <p><strong>${img.style}</strong></p>
+                        <p style="margin-top: 5px; font-size: 0.8rem;">${img.prompt}</p>
+                    </div>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        function refreshGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+            // Shuffle and re-add
+            const shuffled = [...sampleImages].sort(() => Math.random() - 0.5);
+            shuffled.forEach((img, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <img src="${img.url}" alt="${img.prompt}" onclick="openModal('${img.url}')">
+                    <button class="add-to-collage" onclick="addToCollageFromGallery('${img.url}', '${img.prompt.replace(/'/g, "\\'")}')">+</button>
+                    <div class="overlay">
+                        <p><strong>${img.style}</strong></p>
+                        <p style="margin-top: 5px; font-size: 0.8rem;">${img.prompt}</p>
+                    </div>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        // Animate stats on scroll
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const finalValue = stat.textContent;
+                stat.textContent = '0';
+                let current = 0;
+                const target = parseFloat(finalValue);
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = finalValue;
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current) + (finalValue.includes('M') ? 'M+' : finalValue.includes('K') ? 'K+' : '+');
+                    }
+                }, 30);
+            });
+        }
+
+        // Intersection Observer for stats
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.disconnect();
+                }
+            });
+        });
+        observer.observe(document.querySelector('.dream-stats'));
+
+        // Initialize
+        initGallery();
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            if (e.ctrlKey && e.key === 'Enter') generateImage();
+        });
+    </script>
+</body>
+</html>
